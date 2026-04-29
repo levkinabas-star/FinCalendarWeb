@@ -210,83 +210,108 @@ export default function DesktopTwoColumn() {
   ];
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', background: C.bg, overflow: 'hidden', position: 'relative' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', background: '#050510', overflow: 'hidden', position: 'relative' }}>
 
-      {/* Ambient background layer */}
+      {/* ════════════════════════════════════════
+          MODERN AMBIENT BACKGROUND
+      ════════════════════════════════════════ */}
       <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden', zIndex: 0 }}>
-        <div className="dt-orb-1" style={{ position: 'absolute', top: '-18%', left: '-10%', width: 900, height: 900, borderRadius: '50%', background: 'radial-gradient(circle, rgba(59,130,246,0.07) 0%, transparent 65%)' }} />
-        <div className="dt-orb-2" style={{ position: 'absolute', bottom: '-20%', right: '-8%', width: 750, height: 750, borderRadius: '50%', background: 'radial-gradient(circle, rgba(139,92,246,0.06) 0%, transparent 65%)' }} />
-        <div className="dt-orb-3" style={{ position: 'absolute', top: '42%', right: '30%', width: 520, height: 520, borderRadius: '50%', background: 'radial-gradient(circle, rgba(16,185,129,0.04) 0%, transparent 65%)' }} />
-        {/* Subtle mesh grid */}
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(255,255,255,0.013) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.013) 1px, transparent 1px)', backgroundSize: '44px 44px' }} />
+        {/* Deep gradient base */}
+        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 120% 80% at 50% 0%, #0a0f2e 0%, #050510 60%)' }} />
+
+        {/* Main glow orbs */}
+        <div className="dt-orb-1" style={{ position: 'absolute', top: '-30%', left: '-15%', width: 1000, height: 1000, borderRadius: '50%', background: 'radial-gradient(circle, rgba(59,130,246,0.12) 0%, rgba(59,130,246,0.04) 40%, transparent 70%)' }} />
+        <div className="dt-orb-2" style={{ position: 'absolute', bottom: '-40%', right: '-20%', width: 900, height: 900, borderRadius: '50%', background: 'radial-gradient(circle, rgba(139,92,246,0.1) 0%, rgba(139,92,246,0.03) 40%, transparent 70%)' }} />
+        <div className="dt-orb-3" style={{ position: 'absolute', top: '50%, left: 50%', transform: 'translate(-50%, -50%)', width: 800, height: 800, borderRadius: '50%', background: 'radial-gradient(circle, rgba(16,185,129,0.05) 0%, transparent 60%)' }} />
+
+        {/* Accent light beams */}
+        <div style={{ position: 'absolute', top: 0, left: '20%', width: 600, height: '100%', background: 'linear-gradient(180deg, rgba(59,130,246,0.06) 0%, transparent 50%)', transform: 'skewX(-15deg)' }} />
+        <div style={{ position: 'absolute', top: 0, right: '15%', width: 500, height: '100%', background: 'linear-gradient(180deg, rgba(139,92,246,0.05) 0%, transparent 40%)', transform: 'skewX(10deg)' }} />
+
+        {/* Subtle grid pattern */}
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)', backgroundSize: '60px 60px', opacity: 0.5 }} />
+
+        {/* Noise texture overlay */}
+        <div style={{ position: 'absolute', inset: 0, opacity: 0.03, backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E")' }} />
       </div>
 
       {/* ══════════════ HEADER ══════════════ */}
-      <header style={{ height: 56, display: 'flex', alignItems: 'center', padding: '0 20px', borderBottom: `1px solid ${C.glassBorder}`, flexShrink: 0, gap: 12, backdropFilter: 'blur(16px)', background: 'rgba(7,7,15,0.85)', position: 'relative', zIndex: 1 }}>
-        {/* Logo */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <img src="/icon-192.png" alt="FinCalendar" style={{ width: 36, height: 36, borderRadius: 12, flexShrink: 0, objectFit: 'cover' }} />
-          <div>
-            <span style={{ color: C.text, fontSize: 16, fontWeight: 700 }}>FinCalendar</span>
+      <header style={{ height: 64, display: 'flex', alignItems: 'center', padding: '0 24px', flexShrink: 0, gap: 20, background: 'rgba(5,5,16,0.4)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,255,255,0.04)', position: 'relative', zIndex: 1 }}>
+        {/* Logo + Brand */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexShrink: 0 }}>
+          <img src="/icon-192.png" alt="FinCalendar" style={{ width: 40, height: 40, borderRadius: 12, flexShrink: 0, objectFit: 'cover', boxShadow: '0 0 30px rgba(59,130,246,0.4)' }} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <span style={{ color: C.text, fontSize: 20, fontWeight: 800, letterSpacing: '-0.03em' }}>FinCalendar</span>
             {plan === 'pro' && (
-              <span style={{ marginLeft: 8, fontSize: 9, fontWeight: 800, color: C.amber, letterSpacing: '0.12em', background: 'rgba(245,158,11,0.15)', padding: '2px 7px', borderRadius: 6, border: '1px solid rgba(245,158,11,0.3)' }}>PRO</span>
+              <span style={{ fontSize: 9, fontWeight: 800, color: '#FBBF24', letterSpacing: '0.1em', background: 'linear-gradient(135deg, rgba(251,191,36,0.3), rgba(245,158,11,0.2))', padding: '3px 8px', borderRadius: 6, border: '1px solid rgba(251,191,36,0.4)', textShadow: '0 0 16px rgba(251,191,36,0.6)' }}>PRO</span>
             )}
           </div>
         </div>
 
-        <div style={{ flex: 1 }} />
-
-        {/* Balance chip — frosted glass card */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '8px 18px', borderRadius: 14, background: 'rgba(14,20,38,0.8)', border: `1px solid rgba(59,130,246,0.2)`, backdropFilter: 'blur(20px)', boxShadow: '0 4px 20px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.03) inset' }}>
-          <div style={{ textAlign: 'right' }}>
-            <p style={{ color: C.muted, fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em' }}>{t.totalBalance}</p>
-            <p style={{ color: totalBalance >= 0 ? C.text : C.red, fontSize: 17, fontWeight: 800, lineHeight: 1.2 }}>
-              {formatAmount(totalBalance, defaultCurrency as any)}
-            </p>
-          </div>
-          <div style={{ width: 1, height: 32, background: C.glassBorder }} />
-          <div style={{ display: 'flex', gap: 16 }}>
-            <div style={{ textAlign: 'right' }}>
-              <p style={{ color: C.muted, fontSize: 10 }}>{t.income}</p>
-              <p style={{ color: C.green, fontSize: 13, fontWeight: 700 }}>+{formatAmount(totalMonthIncome, defaultCurrency as any)}</p>
-            </div>
-            <div style={{ textAlign: 'right' }}>
-              <p style={{ color: C.muted, fontSize: 10 }}>{t.expenses}</p>
-              <p style={{ color: C.red, fontSize: 13, fontWeight: 700 }}>-{formatAmount(totalMonthExpense, defaultCurrency as any)}</p>
-            </div>
-          </div>
+        {/* Tab bar — positioned over right column (centered in right 60%) */}
+        <div style={{ position: 'absolute', left: '66.6%', transform: 'translateX(-50%)', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 6 }}>
+          {tabDefs.map((tab) => {
+            const active = rightTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setRightTab(tab.id)}
+                className="dt-tab-btn active-scale"
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 8,
+                  padding: '8px 20px', borderRadius: 12,
+                  border: `1px solid ${active ? tab.color : 'rgba(255,255,255,0.08)'}`,
+                  background: active ? `linear-gradient(135deg, ${tab.color}25, ${tab.color}10)` : 'rgba(255,255,255,0.03)',
+                  color: active ? tab.color : 'rgba(255,255,255,0.5)',
+                  fontSize: 13, fontWeight: active ? 700 : 500,
+                  cursor: 'pointer', transition: 'all 0.2s ease',
+                  backdropFilter: 'blur(10px)',
+                  boxShadow: active ? `0 0 24px ${tab.glow}, 0 4px 16px rgba(0,0,0,0.4)` : 'none',
+                }}
+              >
+                {tab.icon}
+                {tab.label}
+              </button>
+            );
+          })}
         </div>
 
-        {plan !== 'pro' && (
-          <button
-            onClick={() => setRightTab('budgets')}
-            className="dt-pro-btn"
-            style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '7px 12px', borderRadius: 10, background: 'rgba(245,158,11,0.12)', border: `1px solid rgba(245,158,11,0.3)`, color: C.amber, fontSize: 12, fontWeight: 700, cursor: 'pointer', boxShadow: '0 0 12px rgba(245,158,11,0.1)' }}
-          >
-            <Star size={13} fill={C.amber} color={C.amber} />
-            Pro
-          </button>
-        )}
+        {/* Right controls cluster */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginLeft: 'auto' }}>
+          {plan !== 'pro' && (
+            <button
+              onClick={() => setRightTab('budgets')}
+              className="dt-pro-btn"
+              style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 14px', borderRadius: 12, background: 'linear-gradient(135deg, rgba(251,191,36,0.25), rgba(245,158,11,0.1))', border: `1px solid rgba(251,191,36,0.4)`, color: '#FBBF24', fontSize: 12, fontWeight: 700, cursor: 'pointer', boxShadow: '0 0 20px rgba(251,191,36,0.25)' }}
+            >
+              <Crown size={14} fill="#FBBF24" color="#FBBF24" />
+              Pro
+            </button>
+          )}
 
-        <button
-          onClick={() => setShowSettings(true)}
-          className="dt-settings-btn"
-          style={{ width: 36, height: 36, borderRadius: 11, background: C.glassCard, border: `1px solid ${C.glassBorder}`, backdropFilter: 'blur(12px)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: C.shadowCard }}
-          title={t.settings}
-        >
-          <Settings size={17} color={C.muted} />
-        </button>
+          <button
+            onClick={() => setShowSettings(true)}
+            className="dt-settings-btn"
+            style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(30,41,59,0.5)', border: `1px solid rgba(59,130,246,0.25)`, backdropFilter: 'blur(12px)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 4px 20px rgba(0,0,0,0.4)' }}
+            title={t.settings}
+          >
+            <Settings size={18} color={C.blue} />
+          </button>
+        </div>
       </header>
 
       {/* ══════════════ TWO COLUMNS ══════════════ */}
-      <div style={{ display: 'grid', gridTemplateColumns: '42fr 58fr', flex: 1, overflow: 'hidden', position: 'relative', zIndex: 1 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '3.3% 30fr 3.3% 60fr 3.3%', flex: 1, overflow: 'hidden', position: 'relative', zIndex: 1 }}>
+
+        {/* Left gap — invisible */}
+        <div style={{ background: 'transparent' }} />
 
         {/* ════ LEFT COLUMN ════ */}
-        <div style={{ borderRight: `1px solid ${C.glassBorder}`, overflowY: 'auto', overflowX: 'hidden', background: 'linear-gradient(180deg, rgba(7,7,15,1) 0%, rgba(11,15,28,1) 100%)' }}>
-          <div style={{ padding: '20px 22px 48px' }}>
+        <div style={{ overflowY: 'auto', overflowX: 'hidden', background: 'transparent' }}>
+          <div style={{ padding: '24px 22px 48px' }}>
 
             {/* Action buttons */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10, marginBottom: 22 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12, marginBottom: 28 }}>
               <ActionButton
                 label={isRu ? '+ Доход' : '+ Income'}
                 color={C.green}
@@ -314,11 +339,11 @@ export default function DesktopTwoColumn() {
             </div>
 
             {/* Balance card */}
-            <div style={{ borderRadius: 20, padding: '22px 24px', marginBottom: 22, background: 'linear-gradient(145deg, rgba(22,33,62,0.95), rgba(11,17,38,0.95))', border: `1px solid rgba(59,130,246,0.22)`, backdropFilter: 'blur(24px)', position: 'relative', overflow: 'hidden', boxShadow: '0 8px 40px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.04) inset' }}>
+            <div style={{ borderRadius: 24, padding: '24px 26px', marginBottom: 28, background: 'linear-gradient(145deg, rgba(20,30,60,0.9), rgba(10,15,35,0.95))', border: `1px solid rgba(59,130,246,0.18)`, backdropFilter: 'blur(24px)', position: 'relative', overflow: 'hidden', boxShadow: '0 8px 48px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05) inset' }}>
               {/* Ambient glow blobs */}
-              <div style={{ position: 'absolute', right: -50, top: -50, width: 240, height: 240, borderRadius: '50%', background: 'radial-gradient(circle, rgba(59,130,246,0.22), transparent 65%)', pointerEvents: 'none' }} />
-              <div style={{ position: 'absolute', left: -30, bottom: -30, width: 180, height: 180, borderRadius: '50%', background: 'radial-gradient(circle, rgba(16,185,129,0.14), transparent 65%)', pointerEvents: 'none' }} />
-              <div style={{ position: 'absolute', right: '35%', top: -20, width: 120, height: 120, borderRadius: '50%', background: 'radial-gradient(circle, rgba(139,92,246,0.1), transparent 65%)', pointerEvents: 'none' }} />
+              <div style={{ position: 'absolute', right: -60, top: -60, width: 280, height: 280, borderRadius: '50%', background: 'radial-gradient(circle, rgba(59,130,246,0.25), transparent 65%)', pointerEvents: 'none' }} />
+              <div style={{ position: 'absolute', left: -40, bottom: -40, width: 200, height: 200, borderRadius: '50%', background: 'radial-gradient(circle, rgba(16,185,129,0.18), transparent 65%)', pointerEvents: 'none' }} />
+              <div style={{ position: 'absolute', right: '30%', top: -30, width: 150, height: 150, borderRadius: '50%', background: 'radial-gradient(circle, rgba(139,92,246,0.12), transparent 65%)', pointerEvents: 'none' }} />
               {/* Top badge */}
               {netMonth < 0 && (
                 <div style={{ position: 'absolute', top: 14, right: 14, display: 'flex', alignItems: 'center', gap: 4, padding: '4px 10px', borderRadius: 8, background: 'rgba(239,68,68,0.15)', border: `1px solid rgba(239,68,68,0.3)`, boxShadow: '0 0 12px rgba(239,68,68,0.15)' }}>
@@ -350,7 +375,7 @@ export default function DesktopTwoColumn() {
             {accounts.length === 0 ? (
               <EmptyCard icon="💳" text={isRu ? 'Нет счетов' : 'No accounts'} />
             ) : (
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(148px,1fr))', gap: 10, marginBottom: 22 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(148px,1fr))', gap: 14, marginBottom: 28 }}>
                 {accounts.map((acc) => (
                   <div
                     key={acc.id}
@@ -445,7 +470,7 @@ export default function DesktopTwoColumn() {
             {upcoming.length === 0 ? (
               <EmptyCard icon="📅" text={isRu ? 'Нет предстоящих платежей' : 'No upcoming payments'} />
             ) : (
-              <div style={{ borderRadius: 16, overflow: 'hidden', border: `1px solid ${C.glassBorder}`, marginBottom: 22, backdropFilter: 'blur(12px)', background: C.glassCard, boxShadow: C.shadowCard }}>
+              <div style={{ borderRadius: 16, overflow: 'hidden', border: `1px solid ${C.glassBorder}`, marginBottom: 28, backdropFilter: 'blur(12px)', background: C.glassCard, boxShadow: C.shadowCard }}>
                 {upcoming.slice(0, 5).map((item, idx) => (
                   <UpcomingRow
                     key={item.kind === 'planned' ? `up-p-${item.expense.id}-${item.date}` : `up-d-${item.payment.id}`}
@@ -488,7 +513,7 @@ export default function DesktopTwoColumn() {
                 <p style={{ fontSize: 13 }}>{t.noTransactions}</p>
               </div>
             ) : (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
                 {grouped.map(([dateStr, items]) => (
                   <div key={dateStr}>
                     <p style={{ color: C.muted, fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.09em', marginBottom: 8, paddingLeft: 4 }}>
@@ -573,38 +598,13 @@ export default function DesktopTwoColumn() {
           </div>
         </div>
 
-        {/* ════ RIGHT COLUMN ════ */}
-        <div style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', background: 'linear-gradient(180deg, rgba(7,7,15,1) 0%, rgba(11,15,28,1) 100%)' }}>
-          {/* Tab bar */}
-          <div style={{ display: 'flex', justifyContent: 'center', gap: 6, padding: '12px 18px', borderBottom: `1px solid ${C.glassBorder}`, flexShrink: 0, background: 'rgba(7,7,15,0.6)', backdropFilter: 'blur(16px)' }}>
-            {tabDefs.map((tab) => {
-              const active = rightTab === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => setRightTab(tab.id)}
-                  className="dt-tab-btn active-scale"
-                  style={{
-                    display: 'flex', alignItems: 'center', gap: 8,
-                    padding: '8px 16px', borderRadius: 12,
-                    border: `1px solid ${active ? tab.color : tab.color + '35'}`,
-                    background: active ? `linear-gradient(135deg, ${tab.color}28, ${tab.color}10)` : `${tab.color}0D`,
-                    color: active ? tab.color : tab.color + '99',
-                    fontSize: 13, fontWeight: active ? 700 : 500,
-                    cursor: 'pointer', transition: 'all 0.2s',
-                    backdropFilter: 'blur(12px)',
-                    boxShadow: active ? `0 0 16px ${tab.glow}` : 'none',
-                  }}
-                >
-                  {tab.icon}
-                  {tab.label}
-                </button>
-              );
-            })}
-          </div>
+        {/* Center gap — invisible */}
+        <div style={{ background: 'transparent' }} />
 
+        {/* ════ RIGHT COLUMN ════ */}
+        <div style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', background: 'transparent' }}>
           {/* Tab content */}
-          <div style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden' }}>
+          <div style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', padding: '24px 28px 48px' }}>
             <Suspense fallback={<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '50vh', color: C.muted, fontSize: 14 }}>...</div>}>
               {rightTab === 'calendar' && <Calendar />}
               {rightTab === 'statistics' && <Statistics />}
@@ -612,6 +612,9 @@ export default function DesktopTwoColumn() {
             </Suspense>
           </div>
         </div>
+
+        {/* Right gap — invisible */}
+        <div style={{ background: 'transparent' }} />
       </div>
 
       {/* ══════════════ SETTINGS OVERLAY ══════════════ */}
@@ -760,7 +763,7 @@ function ActionButton({ label, color, bg, border, icon, onClick }: { label: stri
 
 function SectionHeader({ title, right }: { title: string; right?: React.ReactNode }) {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
         <div style={{ width: 3, height: 14, borderRadius: 2, background: `linear-gradient(180deg, ${C.blue} 0%, ${C.blue}45 100%)`, flexShrink: 0 }} />
         <p style={{ color: '#6E8AA8', fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.12em' }}>{title}</p>

@@ -31,12 +31,32 @@ body {
     margin: 0;
   }
 
-  /* Thin elegant scrollbar — desktop only */
+  /* Thin elegant scrollbar — visible only during scroll, fade out with delay */
   ::-webkit-scrollbar { display: block; width: 3px; height: 3px; }
   ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: rgba(59,130,246,0.18); border-radius: 2px; }
-  ::-webkit-scrollbar-thumb:hover { background: rgba(59,130,246,0.38); }
-  * { scrollbar-width: thin; scrollbar-color: rgba(59,130,246,0.18) transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(59,130,246,0.25);
+    border-radius: 2px;
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+  }
+  ::-webkit-scrollbar-thumb:active {
+    opacity: 1;
+    transition: opacity 0.1s ease-in;
+  }
+  * { scrollbar-width: thin; scrollbar-color: rgba(59,130,246,0.25) transparent; }
+
+  /* Show scrollbar on hover/scroll — using :hover and :active伪类 */
+  *:hover::-webkit-scrollbar-thumb,
+  *:active::-webkit-scrollbar-thumb {
+    opacity: 1;
+    transition: opacity 0.1s ease-in;
+  }
+
+  /* Track always visible on hover */
+  *:hover::-webkit-scrollbar-track {
+    background: rgba(59,130,246,0.05);
+  }
 }
 
 /* Mobile hides scrollbars */
