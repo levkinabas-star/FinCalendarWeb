@@ -9,6 +9,7 @@ import { Currency, Language } from '../types';
 import Modal from '../components/Modal';
 import ImportExportModal from '../components/ImportExportModal';
 import FeedbackModal from '../components/FeedbackModal';
+import ChangelogModal from '../components/ChangelogModal';
 import { useSmartNotifications } from '../hooks/useSmartNotifications';
 
 export default function Settings() {
@@ -24,6 +25,7 @@ export default function Settings() {
   const [showFeedback, setShowFeedback] = useState(false);
   const [showDownload, setShowDownload] = useState(false);
   const [downloadTab, setDownloadTab] = useState<'android' | 'iphone'>('android');
+  const [showChangelog, setShowChangelog] = useState(false);
   const [newCatName, setNewCatName] = useState('');
   const [newCatNameEn, setNewCatNameEn] = useState('');
   const [newCatIcon, setNewCatIcon] = useState('🏷️');
@@ -390,8 +392,14 @@ export default function Settings() {
       <div className="mx-5 mb-5 px-4 py-4 rounded-2xl text-center" style={{ background: '#0E0E1C', border: '1px solid #1E2A40' }}>
         <div className="text-3xl mb-2">💰</div>
         <p className="text-sm font-semibold text-slate-200">FinCalendar</p>
-        <p className="text-xs text-slate-500 mt-0.5">{t.version}</p>
-        <p className="text-xs text-slate-600 mt-1.5">
+        <button
+          onClick={() => setShowChangelog(true)}
+          className="text-xs mt-0.5 px-3 py-1 rounded-lg active-scale transition-all"
+          style={{ color: '#3B82F6', background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.2)' }}
+        >
+          {t.version} — {language === 'ru' ? 'Что нового' : "What's new"}
+        </button>
+        <p className="text-xs text-slate-600 mt-2">
           © 2026 FinCalendar. {language === 'ru' ? 'Все права защищены.' : 'All rights reserved.'}
         </p>
       </div>
@@ -652,6 +660,9 @@ export default function Settings() {
 
       {/* Feedback Modal */}
       <FeedbackModal isOpen={showFeedback} onClose={() => setShowFeedback(false)} />
+
+      {/* Changelog Modal */}
+      <ChangelogModal isOpen={showChangelog} onClose={() => setShowChangelog(false)} language={language} />
 
       {/* Clear Data Confirm */}
       <Modal isOpen={showClearConfirm} onClose={() => setShowClearConfirm(false)} title={t.areYouSure}>
