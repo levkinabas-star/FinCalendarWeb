@@ -6,7 +6,7 @@ services:
     friendly_name: "FinCalendar — Веб-приложение"
     type: frontend
     framework: react
-    root_dir: /
+    project_dir: /home/user/FinCalendar
     build_command: npm install && npm run build
     publish_dir: dist
 
@@ -16,7 +16,7 @@ services:
     framework: express
     runtime: node
     deployment_strategy: native
-    root_dir: server
+    project_dir: /home/user/FinCalendar/server
     start_command: node index.js
     env_vars:
       - name: PORT
@@ -26,4 +26,5 @@ services:
       - name: YOOKASSA_SECRET_KEY
         secret: true
       - name: APP_URL
+        value: "https://appfincalendar.ru"
         secret: false
