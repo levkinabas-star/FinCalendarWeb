@@ -14,6 +14,11 @@ android/local.properties
 # Vite cache
 .vite/
 
+# Environment files (keep .env.example)
+.env
+.env.local
+.env.production
+
 # Logs
 *.log
 npm-debug.log*
@@ -22,3 +27,6 @@ npm-debug.log*
 .DS_Store
 .idea/
 *.iml
+
+# Secrets (keep server/.env.example as template)
+server/.env
