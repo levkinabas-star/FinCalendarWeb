@@ -1,0 +1,30 @@
+# Timeweb Cloud App Platform Configuration
+# https://timeweb.cloud/docs/apps
+
+services:
+  - name: payment-api
+    env: nodejs
+    version: "20"
+    build_command: npm ci --omit=dev
+    start_command: npm start
+    port: 4000
+    
+    # Health check
+    healthcheck:
+      enabled: true
+      path: /health
+      interval: 30
+      timeout: 10
+      retries: 3
+    
+    # Scaling
+    scaling:
+      replicas: 1
+      cpu: 512
+      memory: 512
+    
+    # Environment variables (set in Timeweb dashboard, not here)
+    # Required:
+    #   - YOOKASSA_SHOP_ID
+    #   - YOOKASSA_SECRET_KEY
+    #   - APP_URL
