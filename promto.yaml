@@ -1,5 +1,5 @@
 name: fincalendar-web
-comment: FinCalendar Frontend - только React SPA
+comment: FinCalendar Frontend - React SPA для Timeweb Cloud
 
 services:
   web:
@@ -9,4 +9,10 @@ services:
     project_dir: /home/user/FinCalendarWeb
     build_command: npm install && npm run build
     publish_dir: dist
-    env_vars: []
+    env_vars:
+      - name: VITE_API_URL
+        value: "https://levkinabas-star-fincalendarweb-003c.twc1.net"
+      - name: VITE_SUPABASE_URL
+        value: "https://lcqobtfifmerfkwtdxov.supabase.co"
+      - name: VITE_SUPABASE_ANON_KEY
+        value: "sb_publishable_IytVqQUhLOSZ3eI7xupFqA_OMRYZy6H"
