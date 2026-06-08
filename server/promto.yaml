@@ -1,0 +1,23 @@
+name: fincalendar-api
+comment: FinCalendar API - YooKassa payment backend
+
+services:
+  api:
+    friendly_name: "Payment API (YooKassa)"
+    type: backend
+    framework: express
+    runtime: node
+    deployment_strategy: native
+    project_dir: /home/user/FinCalendarWeb/server
+    start_command: node index.js
+    port: 4000
+    env_vars:
+      - name: PORT
+        secret: false
+      - name: YOOKASSA_SHOP_ID
+        secret: true
+      - name: YOOKASSA_SECRET_KEY
+        secret: true
+      - name: APP_URL
+        value: "https://levkinabas-star-fincalendarweb-003c.twc1.net"
+        secret: false
