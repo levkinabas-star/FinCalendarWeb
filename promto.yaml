@@ -1,0 +1,12 @@
+name: fincalendar-web
+comment: FinCalendar Frontend - только React SPA
+
+services:
+  web:
+    friendly_name: "FinCalendar — Веб-приложение"
+    type: frontend
+    framework: react
+    project_dir: /home/user/FinCalendarWeb
+    build_command: npm install && npm run build
+    publish_dir: dist
+    env_vars: []
