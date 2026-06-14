@@ -24,3 +24,5 @@ Thumbs.db
 # Build
 dist/
 build/
+core
+public/FinCalendar-release.apk
