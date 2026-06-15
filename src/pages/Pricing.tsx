@@ -109,7 +109,6 @@ export default function Pricing({ isModal = false, onClose }: Props = {}) {
 			localStorage.setItem("yk_pending_payment_id", id);
 
 			if (Capacitor.isNativePlatform()) {
-				// In-app browser overlay keeps the app context intact
 				await Browser.open({ url: confirmationUrl });
 				Browser.addListener("browserFinished", () => {
 					Browser.removeAllListeners();
@@ -129,58 +128,48 @@ export default function Pricing({ isModal = false, onClose }: Props = {}) {
 
 	return (
 		<div
-			className="page-enter pb-32 min-h-screen"
-			style={{ background: "#07070F" }}
+			className={isModal ? "" : "page-enter"}
+			style={{
+				background: isModal ? "transparent" : "#07070F",
+				minHeight: isModal ? "auto" : "100vh",
+				paddingBottom: isModal ? 0 : undefined,
+				paddingTop: isModal ? 0 : undefined,
+			}}
 		>
-			{/* Header */}
-			<div
-				className={`px-5 pt-6 pb-4 flex items-center ${isModal ? "justify-center" : "gap-3"}`}
-			>
-				{!isModal && (
-					<button
-						onClick={() => navigate(-1)}
-						className="w-9 h-9 rounded-xl flex items-center justify-center active-scale"
-						style={{ background: "#1E1E38" }}
-					>
-						<ArrowLeft size={18} color="#94A3B8" />
-					</button>
-				)}
-				<h1 className="text-xl font-bold text-slate-100">
-					{isRu ? "Тарифы" : "Plans"}
-				</h1>
-			</div>
 
-			{/* Hero */}
-			<div className="px-5 mb-6">
-				<div
-					className="rounded-3xl p-6 text-center"
-					style={{
-						background: "linear-gradient(135deg, #1a0a2e 0%, #0d1a2e 100%)",
-						border: "1px solid #2D2D5A",
-					}}
-				>
+			{/* Hero - hide in modal */}
+			{!isModal && (
+				<div className="px-5 mb-6">
 					<div
-						className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4"
+						className="rounded-3xl p-6 text-center"
 						style={{
-							background: "linear-gradient(135deg, #F59E0B 0%, #EF4444 100%)",
+							background: "linear-gradient(135deg, #1a0a2e 0%, #0d1a2e 100%)",
+							border: "1px solid #2D2D5A",
 						}}
 					>
-						<Crown size={30} color="white" />
+						<div
+							className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4"
+							style={{
+								background: "linear-gradient(135deg, #F59E0B 0%, #EF4444 100%)",
+							}}
+						>
+							<Crown size={30} color="white" />
+						</div>
+						<h2 className="text-2xl font-bold text-white mb-2">
+							{isRu ? "Бюджет без ограничений" : "Budget Without Limits"}
+						</h2>
+						<p className="text-slate-400 text-sm leading-relaxed">
+							{isRu
+								? "Разблокируйте все функции и управляйте финансами без ограничений"
+								: "Unlock all features and manage your finances without restrictions"}
+						</p>
 					</div>
-					<h2 className="text-2xl font-bold text-white mb-2">
-						{isRu ? "Бюджет без ограничений" : "Budget Without Limits"}
-					</h2>
-					<p className="text-slate-400 text-sm leading-relaxed">
-						{isRu
-							? "Разблокируйте все функции и управляйте финансами без ограничений"
-							: "Unlock all features and manage your finances without restrictions"}
-					</p>
 				</div>
-			</div>
+			)}
 
 			{/* Billing toggle */}
 			{!isPro && (
-				<div className="px-5 mb-6">
+				<div className={isModal ? "px-4 mb-3" : "px-5 mb-4"}>
 					<div
 						className="flex rounded-2xl p-1 gap-1"
 						style={{ background: "#131325" }}
@@ -221,40 +210,40 @@ export default function Pricing({ isModal = false, onClose }: Props = {}) {
 			)}
 
 			{/* Plan cards */}
-			<div className="px-5 flex flex-col gap-4 mb-6">
+			<div className={isModal ? "px-4 flex flex-col gap-3 mb-3" : "px-5 flex flex-col gap-4 mb-4"}>
 				{/* Free card */}
 				<div
-					className="rounded-3xl p-5"
+					className="rounded-2xl p-4"
 					style={{
 						background: "#12122A",
 						border: `1px solid ${plan === "free" ? "#3B82F6" : "#1E2A40"}`,
 					}}
 				>
-					<div className="flex items-center justify-between mb-4">
+					<div className="flex items-center justify-between mb-3">
 						<div>
-							<p className="text-slate-100 font-bold text-lg">Free</p>
+							<p className="text-slate-100 font-bold text-base">Free</p>
 							<p className="text-slate-400 text-xs">
 								{isRu ? "Навсегда бесплатно" : "Always free"}
 							</p>
 						</div>
-						<span className="text-2xl font-bold text-slate-100">0</span>
+						<span className="text-xl font-bold text-slate-100">0</span>
 					</div>
-					<div className="flex flex-col gap-2">
+					<div className="flex flex-col gap-1.5">
 						{freeFeatures.map((f, i) => (
 							<div key={i} className="flex items-center gap-2">
 								<div
-									className="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0"
+									className="w-3.5 h-3.5 rounded-full flex items-center justify-center flex-shrink-0"
 									style={{ background: "#1E2A40" }}
 								>
-									<Check size={10} color="#64748B" />
+									<Check size={8} color="#64748B" />
 								</div>
-								<span className="text-slate-400 text-sm">{f}</span>
+								<span className="text-slate-400 text-xs">{f}</span>
 							</div>
 						))}
 					</div>
 					{plan === "free" && (
 						<div
-							className="mt-4 py-2.5 rounded-2xl text-center text-sm font-semibold text-slate-500"
+							className="mt-3 py-2 rounded-xl text-center text-xs font-medium text-slate-500"
 							style={{ background: "#1E2A40" }}
 						>
 							{isRu ? "Текущий план" : "Current plan"}
@@ -264,7 +253,7 @@ export default function Pricing({ isModal = false, onClose }: Props = {}) {
 
 				{/* Pro card */}
 				<div
-					className="rounded-3xl p-5 relative overflow-hidden"
+					className="rounded-2xl p-4 relative overflow-hidden"
 					style={{
 						background: "linear-gradient(135deg, #1a0a2e 0%, #0d1a2e 100%)",
 						border: `2px solid ${isPro ? "#10B981" : "#F59E0B"}`,
@@ -272,23 +261,23 @@ export default function Pricing({ isModal = false, onClose }: Props = {}) {
 				>
 					{!isPro && (
 						<div
-							className="absolute top-4 right-4 flex items-center gap-1 px-2.5 py-1 rounded-xl"
+							className="absolute top-3 right-3 flex items-center gap-1 px-2 py-1 rounded-lg"
 							style={{
 								background: "linear-gradient(135deg, #F59E0B 0%, #EF4444 100%)",
 							}}
 						>
-							<Sparkles size={11} color="white" />
+							<Sparkles size={10} color="white" />
 							<span className="text-white text-xs font-bold">
 								{isRu ? "Популярный" : "Popular"}
 							</span>
 						</div>
 					)}
-					<div className="flex items-center justify-between mb-1">
+					<div className="flex items-center justify-between mb-2">
 						<div>
-							<p className="text-white font-bold text-lg flex items-center gap-2">
-								<Crown size={16} color="#F59E0B" /> Pro
+							<p className="text-white font-bold text-base flex items-center gap-1.5">
+								<Crown size={14} color="#F59E0B" /> Pro
 							</p>
-							<p className="text-slate-400 text-xs mt-0.5">
+							<p className="text-slate-400 text-xs">
 								{billing === "yearly"
 									? isRu
 										? `${yearlyMonthly} при оплате за год`
@@ -297,7 +286,7 @@ export default function Pricing({ isModal = false, onClose }: Props = {}) {
 							</p>
 						</div>
 						<div className="text-right">
-							<p className="text-2xl font-bold text-white">
+							<p className="text-xl font-bold text-white">
 								{billing === "monthly" ? monthlyPrice : yearlyPrice}
 							</p>
 							<p className="text-slate-400 text-xs">
@@ -312,26 +301,26 @@ export default function Pricing({ isModal = false, onClose }: Props = {}) {
 						</div>
 					</div>
 
-					<div className="flex flex-col gap-2 mt-4">
+					<div className="flex flex-col gap-1.5 mb-4">
 						{proFeatures.map((f, i) => (
 							<div key={i} className="flex items-center gap-2">
 								<div
-									className="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0"
+									className="w-3.5 h-3.5 rounded-full flex items-center justify-center flex-shrink-0"
 									style={{
 										background:
 											"linear-gradient(135deg, #F59E0B 0%, #EF4444 100%)",
 									}}
 								>
-									<Check size={10} color="white" />
+									<Check size={8} color="white" />
 								</div>
-								<span className="text-slate-200 text-sm">{f}</span>
+								<span className="text-slate-200 text-xs">{f}</span>
 							</div>
 						))}
 					</div>
 
 					{isPro ? (
 						<div
-							className="mt-5 py-3 rounded-2xl text-center text-sm font-bold"
+							className="py-2.5 rounded-xl text-center text-sm font-bold"
 							style={{ background: "#10B981", color: "white" }}
 						>
 							✓ {isRu ? "Pro активирован" : "Pro Active"}
@@ -340,7 +329,7 @@ export default function Pricing({ isModal = false, onClose }: Props = {}) {
 						<button
 							onClick={handleActivate}
 							disabled={activating}
-							className="mt-5 w-full py-3 rounded-2xl text-sm font-bold active-scale transition-opacity"
+							className="w-full py-3 rounded-xl text-sm font-bold active-scale transition-opacity"
 							style={{
 								background: "linear-gradient(135deg, #F59E0B 0%, #EF4444 100%)",
 								color: "white",
@@ -372,14 +361,14 @@ export default function Pricing({ isModal = false, onClose }: Props = {}) {
 
 			{/* Promo code */}
 			{promoState.status !== "success" && (
-				<div className="px-5 mb-6">
+				<div className={isModal ? "px-4 mb-3" : "px-5 mb-4"}>
 					<div
-						className="rounded-3xl p-5"
+						className="rounded-2xl p-4"
 						style={{ background: "#12122A", border: "1px solid #1E2A40" }}
 					>
-						<div className="flex items-center gap-2 mb-3">
-							<Tag size={15} color="#3B82F6" />
-							<p className="text-slate-200 text-sm font-semibold">
+						<div className="flex items-center gap-2 mb-2">
+							<Tag size={14} color="#3B82F6" />
+							<p className="text-slate-200 text-sm font-medium">
 								{isRu ? "Промокод" : "Promo code"}
 							</p>
 						</div>
@@ -394,7 +383,7 @@ export default function Pricing({ isModal = false, onClose }: Props = {}) {
 									e.key === "Enter" && promoInput.trim() && handlePromo()
 								}
 								placeholder={isRu ? "Введите промокод" : "Enter promo code"}
-								className="flex-1 px-4 py-2.5 rounded-2xl text-sm text-slate-100 outline-none"
+								className="flex-1 px-3 py-2 rounded-xl text-sm text-slate-100 outline-none"
 								style={{
 									background: "#1E1E38",
 									border: `1px solid ${promoState.status === "error" ? "#EF4444" : "#2D2D5A"}`,
@@ -404,7 +393,7 @@ export default function Pricing({ isModal = false, onClose }: Props = {}) {
 							<button
 								onClick={handlePromo}
 								disabled={!promoInput.trim()}
-								className="px-4 py-2.5 rounded-2xl text-sm font-semibold active-scale transition-opacity"
+								className="px-4 py-2 rounded-xl text-sm font-medium active-scale transition-opacity"
 								style={{
 									background: "#3B82F6",
 									color: "white",
@@ -415,8 +404,8 @@ export default function Pricing({ isModal = false, onClose }: Props = {}) {
 							</button>
 						</div>
 						{promoState.status === "error" && (
-							<div className="flex items-center gap-1.5 mt-2">
-								<XCircle size={13} color="#EF4444" />
+							<div className="flex items-center gap-1.5 mt-1.5">
+								<XCircle size={12} color="#EF4444" />
 								<p className="text-xs" style={{ color: "#EF4444" }}>
 									{isRu ? "Неверный промокод" : "Invalid promo code"}
 								</p>
@@ -427,12 +416,12 @@ export default function Pricing({ isModal = false, onClose }: Props = {}) {
 			)}
 
 			{promoState.status === "success" && (
-				<div className="px-5 mb-6">
+				<div className="px-5 mb-4">
 					<div
-						className="rounded-3xl p-5 flex items-center gap-3"
+						className="rounded-2xl p-4 flex items-center gap-3"
 						style={{ background: "#0d2a1a", border: "1px solid #10B981" }}
 					>
-						<CheckCircle size={22} color="#10B981" />
+						<CheckCircle size={20} color="#10B981" />
 						<div>
 							<p className="text-sm font-bold text-emerald-400">
 								{isRu ? "Промокод активирован!" : "Promo code activated!"}
@@ -444,7 +433,7 @@ export default function Pricing({ isModal = false, onClose }: Props = {}) {
 			)}
 
 			{/* Footer note */}
-			<p className="text-center text-slate-500 text-xs px-8">
+			<p className={isModal ? "text-center text-slate-500 text-xs px-4 py-3" : "text-center text-slate-500 text-xs px-8 pb-4"}>
 				{isRu
 					? "Оплата производится через платёжный сервис. Отменить можно в любой момент."
 					: "Payment is processed securely. Cancel anytime."}
