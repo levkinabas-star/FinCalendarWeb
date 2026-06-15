@@ -18,6 +18,8 @@ import { WidgetData } from './widgetPlugin';
 import { getDatesWithEventsInMonth, getDebtPaymentsInMonth, getScheduledPaymentsInMonth, getDebtsWithDueDateInMonth } from './utils';
 import { ArrowLeftRight, TrendingUp, TrendingDown, Coins, Receipt } from 'lucide-react';
 import { AddTransactionContext } from './contexts/AddTransactionContext';
+import { PricingModalProvider, usePricingModal } from './contexts/PricingModalContext';
+import PricingModal from './components/PricingModal';
 
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const Accounts = lazy(() => import('./pages/Accounts'));
@@ -204,15 +206,33 @@ export default function App() {
   );
 
   return (
-    <BrowserRouter>
+    <PricingModalProvider>
+      <BrowserRouter>
+        <AppContent openAdd={openAdd} routes={routes} modalContent={modalContent} isDesktop={isDesktop} />
+      </BrowserRouter>
+    </PricingModalProvider>
+  );
+}
+
+function AppContent({ openAdd, routes, modalContent, isDesktop }: {
+  openAdd: (mode?: 'expense' | 'income' | 'transfer', date?: string) => void;
+  routes: React.ReactNode;
+  modalContent: React.ReactNode;
+  isDesktop: boolean;
+}) {
+  const { showPricing, openPricing, closePricing } = usePricingModal();
+  const { toasts, dismissToast } = useSmartNotifications();
+
+  return (
+    <>
       <AddTransactionContext.Provider value={{ openAdd }}>
-        <WidgetActionHandler openAdd={openAdd} />
+        <WidgetActionHandler openAdd={openAdd} openPricing={openPricing} />
         <InstallPrompt />
         <ToastContainer toasts={toasts} onDismiss={dismissToast} />
 
         {isDesktop ? (
           /* ── Desktop Layout ── */
-          <DesktopTwoColumn />
+          <DesktopTwoColumn openPricing={openPricing} />
         ) : (
           /* ── Mobile Layout ── */
           <div className="min-h-screen" style={{ background: '#07070F' }}>
@@ -225,11 +245,16 @@ export default function App() {
 
         {modalContent}
       </AddTransactionContext.Provider>
-    </BrowserRouter>
+
+      <PricingModal isOpen={showPricing} onClose={closePricing} />
+    </>
   );
 }
 
-function WidgetActionHandler({ openAdd }: { openAdd: (mode: 'expense' | 'income' | 'transfer') => void }) {
+function WidgetActionHandler({ openAdd, openPricing }: {
+  openAdd: (mode: 'expense' | 'income' | 'transfer') => void;
+  openPricing: () => void;
+}) {
   const navigate = useNavigate();
 
   useEffect(() => {

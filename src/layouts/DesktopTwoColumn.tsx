@@ -1,5 +1,5 @@
 import { useState, useMemo, lazy, Suspense } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { format, parseISO, isToday, isYesterday, differenceInDays } from 'date-fns';
 import {
   TrendingUp, TrendingDown, ArrowLeftRight, Pencil, Trash2, RotateCcw,
@@ -18,13 +18,17 @@ import AccountForm from '../components/AccountForm';
 import DebtForm from '../components/DebtForm';
 import DebtPaymentForm from '../components/DebtPaymentForm';
 import UpcomingRow from '../components/UpcomingRow';
-import { Transaction, Debt, DebtPayment, PlannedExpense } from '../types';
+import type { Transaction, Debt, DebtPayment, PlannedExpense } from '../types';
 import { useAddTransaction } from '../contexts/AddTransactionContext';
 
 const Calendar = lazy(() => import('../pages/Calendar'));
 const Statistics = lazy(() => import('../pages/Statistics'));
 const Budgets = lazy(() => import('../pages/Budgets'));
 const Settings_ = lazy(() => import('../pages/Settings'));
+
+interface Props {
+  openPricing?: () => void;
+}
 
 type RightTab = 'calendar' | 'statistics' | 'budgets';
 
@@ -54,23 +58,8 @@ const C = {
   shadowGlowBlue: '0 0 20px rgba(59,130,246,0.2)',
 };
 
-export default function DesktopTwoColumn() {
+export default function DesktopTwoColumn({ openPricing }: Props = {}) {
   const navigate = useNavigate();
-  const location = useLocation();
-  const isOnPricing = location.pathname === '/pricing';
-
-  // Show pricing page when navigated to /pricing
-  if (isOnPricing) {
-    const Pricing = lazy(() => import('../pages/Pricing'));
-    return (
-      <div style={{ height: '100vh', overflow: 'auto', background: '#07070F' }}>
-        <Suspense fallback={<div style={{ height: '100vh', background: '#07070F' }} />}>
-          <Pricing />
-        </Suspense>
-      </div>
-    );
-  }
-
   const {
     language, accounts, transactions, categories, plannedExpenses, defaultCurrency,
     deleteTransaction, addTransaction, deletePlannedExpense, budgets, debts,
@@ -297,7 +286,7 @@ export default function DesktopTwoColumn() {
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginLeft: 'auto' }}>
           {plan !== 'pro' && (
             <button
-              onClick={() => navigate('/pricing')}
+              onClick={() => openPricing ? openPricing() : navigate('/pricing')}
               className="dt-pro-btn"
               style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 14px', borderRadius: 12, background: 'linear-gradient(135deg, rgba(251,191,36,0.25), rgba(245,158,11,0.1))', border: `1px solid rgba(251,191,36,0.4)`, color: '#FBBF24', fontSize: 12, fontWeight: 700, cursor: 'pointer', boxShadow: '0 0 20px rgba(251,191,36,0.25)' }}
             >
@@ -760,6 +749,7 @@ export default function DesktopTwoColumn() {
           </div>
         </div>
       </Modal>
+
     </div>
   );
 }

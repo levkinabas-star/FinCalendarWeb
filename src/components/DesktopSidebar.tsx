@@ -7,9 +7,10 @@ import { colors } from './ui';
 
 interface Props {
   onAddTransaction: () => void;
+  onOpenPricing?: () => void;
 }
 
-export default function DesktopSidebar({ onAddTransaction }: Props) {
+export default function DesktopSidebar({ onAddTransaction, onOpenPricing }: Props) {
   const navigate = useNavigate();
   const location = useLocation();
   const language = useStore((s) => s.language);
@@ -203,7 +204,7 @@ export default function DesktopSidebar({ onAddTransaction }: Props) {
         {/* Pro upgrade */}
         {plan !== 'pro' && (
           <button
-            onClick={() => navigate('/pricing')}
+            onClick={() => onOpenPricing ? onOpenPricing() : navigate('/pricing')}
             className="active-scale"
             style={{
               display: 'flex',

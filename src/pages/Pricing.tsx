@@ -1,5 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+interface Props {
+  isModal?: boolean;
+  onClose?: () => void;
+}
 import { Crown, Check, ArrowLeft, Sparkles, Tag, CheckCircle, XCircle } from 'lucide-react';
 import { Browser } from '@capacitor/browser';
 import { Capacitor } from '@capacitor/core';
@@ -40,7 +45,7 @@ const PRO_FEATURES_EN = [
   'Export to PDF, Excel, CSV, JSON',
 ];
 
-export default function Pricing() {
+export default function Pricing({ isModal = false, onClose }: Props = {}) {
   const navigate = useNavigate();
   const { language, plan, proExpiry, activatePro, applyPromoCode } = useStore();
   const isRu = language === 'ru';
@@ -63,7 +68,7 @@ export default function Pricing() {
     if (result.ok) {
       setPromoState({ status: 'success', label: isRu ? result.labelRu : result.labelEn });
       setPromoInput('');
-      setTimeout(() => navigate('/'), 1800);
+      setTimeout(() => { if (onClose) onClose(); else navigate('/'); }, 1800);
     } else {
       setPromoState({ status: 'error' });
     }
@@ -110,14 +115,16 @@ export default function Pricing() {
   return (
     <div className="page-enter pb-32 min-h-screen" style={{ background: '#07070F' }}>
       {/* Header */}
-      <div className="px-5 pt-6 pb-4 flex items-center gap-3">
-        <button
-          onClick={() => navigate(-1)}
-          className="w-9 h-9 rounded-xl flex items-center justify-center active-scale"
-          style={{ background: '#1E1E38' }}
-        >
-          <ArrowLeft size={18} color="#94A3B8" />
-        </button>
+      <div className={`px-5 pt-6 pb-4 flex items-center ${isModal ? 'justify-center' : 'gap-3'}`}>
+        {!isModal && (
+          <button
+            onClick={() => navigate(-1)}
+            className="w-9 h-9 rounded-xl flex items-center justify-center active-scale"
+            style={{ background: '#1E1E38' }}
+          >
+            <ArrowLeft size={18} color="#94A3B8" />
+          </button>
+        )}
         <h1 className="text-xl font-bold text-slate-100">
           {isRu ? 'Тарифы' : 'Plans'}
         </h1>
