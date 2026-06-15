@@ -29,10 +29,7 @@ export default function PricingModal({ isOpen, onClose }: Props) {
 			}}
 		>
 			{/* Backdrop */}
-			<div
-				className="absolute inset-0"
-				onClick={onClose}
-			/>
+			<div className="absolute inset-0" onClick={onClose} />
 
 			{/* Dialog */}
 			<div
@@ -47,13 +44,15 @@ export default function PricingModal({ isOpen, onClose }: Props) {
 					overflow: "hidden",
 					display: "flex",
 					flexDirection: "column",
-					boxShadow: "0 32px 80px rgba(0,0,0,0.7), 0 0 60px rgba(59,130,246,0.1)",
+					boxShadow:
+						"0 32px 80px rgba(0,0,0,0.7), 0 0 60px rgba(59,130,246,0.1)",
 				}}
 			>
 				{/* Gradient Header */}
 				<div
 					style={{
-						background: "linear-gradient(135deg, rgba(59,130,246,0.15) 0%, rgba(139,92,246,0.1) 50%, rgba(245,158,11,0.05) 100%)",
+						background:
+							"linear-gradient(135deg, rgba(59,130,246,0.15) 0%, rgba(139,92,246,0.1) 50%, rgba(245,158,11,0.05) 100%)",
 						borderBottom: "1px solid rgba(59,130,246,0.15)",
 						padding: "20px 24px",
 						flexShrink: 0,
@@ -64,7 +63,8 @@ export default function PricingModal({ isOpen, onClose }: Props) {
 							<div
 								className="w-10 h-10 rounded-2xl flex items-center justify-center"
 								style={{
-									background: "linear-gradient(135deg, #F59E0B 0%, #EF4444 100%)",
+									background:
+										"linear-gradient(135deg, #F59E0B 0%, #EF4444 100%)",
 									boxShadow: "0 4px 20px rgba(245,158,11,0.4)",
 								}}
 							>

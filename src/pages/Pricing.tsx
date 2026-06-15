@@ -136,7 +136,6 @@ export default function Pricing({ isModal = false, onClose }: Props = {}) {
 				paddingTop: isModal ? 0 : undefined,
 			}}
 		>
-
 			{/* Hero - hide in modal */}
 			{!isModal && (
 				<div className="px-5 mb-6">
@@ -210,7 +209,13 @@ export default function Pricing({ isModal = false, onClose }: Props = {}) {
 			)}
 
 			{/* Plan cards */}
-			<div className={isModal ? "px-4 flex flex-col gap-3 mb-3" : "px-5 flex flex-col gap-4 mb-4"}>
+			<div
+				className={
+					isModal
+						? "px-4 flex flex-col gap-3 mb-3"
+						: "px-5 flex flex-col gap-4 mb-4"
+				}
+			>
 				{/* Free card */}
 				<div
 					className="rounded-2xl p-4"
@@ -433,7 +438,13 @@ export default function Pricing({ isModal = false, onClose }: Props = {}) {
 			)}
 
 			{/* Footer note */}
-			<p className={isModal ? "text-center text-slate-500 text-xs px-4 py-3" : "text-center text-slate-500 text-xs px-8 pb-4"}>
+			<p
+				className={
+					isModal
+						? "text-center text-slate-500 text-xs px-4 py-3"
+						: "text-center text-slate-500 text-xs px-8 pb-4"
+				}
+			>
 				{isRu
 					? "Оплата производится через платёжный сервис. Отменить можно в любой момент."
 					: "Payment is processed securely. Cancel anytime."}
