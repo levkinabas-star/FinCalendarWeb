@@ -1,0 +1,16 @@
+# Timeweb Cloud Configuration
+# https://timeweb.cloud/docs/about/configuration
+
+owner: levkinabas-star
+repo: FinCalendarWeb
+branch: backend
+runtime:
+  name: node
+  version: "20"
+buildCommand: npm ci
+startCommand: npm start
+environment:
+  - key: NODE_ENV
+    value: production
+  - key: PORT
+    value: "4000"
