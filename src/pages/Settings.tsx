@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
 	Globe,
 	DollarSign,
@@ -76,6 +76,13 @@ export default function Settings() {
 	const [notifLoading, setNotifLoading] = useState(false);
 	const [notifDenied, setNotifDenied] = useState(false);
 	const customCategories = categories.filter((c) => !c.isPreset);
+	const { openPricing } = usePricingModal();
+
+	useEffect(() => {
+		if (window.location.search.includes("openPricing=1")) {
+			openPricing();
+		}
+	}, []);
 
 	const ICONS = [
 		"🏷️",
@@ -172,7 +179,7 @@ export default function Settings() {
 							</span>
 						</div>
 						<button
-							onClick={() => navigate("/pricing")}
+							onClick={() => openPricing()}
 							className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl active-scale"
 							style={{ background: "#12122A", border: "1px solid #1E2A40" }}
 						>
@@ -185,7 +192,7 @@ export default function Settings() {
 					</div>
 				) : (
 					<button
-						onClick={() => navigate("/pricing")}
+						onClick={() => openPricing()}
 						className="w-full flex items-center gap-3 px-4 py-4 rounded-2xl active-scale"
 						style={{
 							background: "linear-gradient(135deg, #0d1a2e 0%, #1a0a2e 100%)",
@@ -415,7 +422,7 @@ export default function Settings() {
 					onClick={() =>
 						canAddCustomCategory
 							? setShowCategoryModal(true)
-							: navigate("/pricing")
+							: openPricing()
 					}
 					className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl active-scale"
 					style={{ background: "transparent", border: "2px dashed #1E2A40" }}

@@ -191,7 +191,11 @@ export default function App() {
 	const { toasts, dismissToast } = useSmartNotifications();
 	useSupabaseSync();
 
-	if (!onboardingCompleted) {
+	const skipOnboarding =
+		typeof window !== "undefined" &&
+		new URLSearchParams(window.location.search).get("preview") === "1";
+
+	if (!skipOnboarding && !onboardingCompleted) {
 		return <Onboarding />;
 	}
 
@@ -314,6 +318,15 @@ function AppContent({
 }) {
 	const { showPricing, openPricing, closePricing } = usePricingModal();
 	const { toasts, dismissToast } = useSmartNotifications();
+
+	useEffect(() => {
+		if (
+			typeof window !== "undefined" &&
+			new URLSearchParams(window.location.search).get("preview") === "1"
+		) {
+			openPricing();
+		}
+	}, [openPricing]);
 
 	return (
 		<>

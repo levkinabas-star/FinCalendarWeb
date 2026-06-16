@@ -1,16 +1,85 @@
-import { lazy, Suspense } from "react";
+import { useEffect, useRef } from "react";
 import { X, Crown } from "lucide-react";
 import { useIsDesktop } from "../hooks/useIsDesktop";
-
-const Pricing = lazy(() => import("../pages/Pricing"));
+import Pricing from "../pages/Pricing";
 
 interface Props {
 	isOpen: boolean;
 	onClose: () => void;
 }
 
+const FOCUSABLE_SELECTORS =
+	'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
 export default function PricingModal({ isOpen, onClose }: Props) {
 	const isDesktop = useIsDesktop();
+	const dialogRef = useRef<HTMLDivElement>(null);
+	const closeButtonRef = useRef<HTMLButtonElement>(null);
+	const previouslyFocusedRef = useRef<HTMLElement | null>(null);
+
+	useEffect(() => {
+		if (!isOpen) return;
+
+		const originalOverflow = document.body.style.overflow;
+		document.body.style.overflow = "hidden";
+		return () => {
+			document.body.style.overflow = originalOverflow;
+		};
+	}, [isOpen]);
+
+	useEffect(() => {
+		if (!isOpen) return;
+
+		const handleKeyDown = (e: KeyboardEvent) => {
+			if (e.key === "Escape") {
+				e.preventDefault();
+				onClose();
+			}
+		};
+
+		document.addEventListener("keydown", handleKeyDown);
+		return () => document.removeEventListener("keydown", handleKeyDown);
+	}, [isOpen, onClose]);
+
+	useEffect(() => {
+		if (!isOpen) return;
+
+		previouslyFocusedRef.current = document.activeElement as HTMLElement;
+		closeButtonRef.current?.focus();
+
+		const dialog = dialogRef.current;
+		if (!dialog) return;
+
+		const handleTabKey = (e: KeyboardEvent) => {
+			if (e.key !== "Tab") return;
+
+			const focusable = Array.from(
+				dialog.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTORS),
+			).filter((el) => el.offsetParent !== null);
+
+			if (focusable.length === 0) {
+				e.preventDefault();
+				return;
+			}
+
+			const first = focusable[0];
+			const last = focusable[focusable.length - 1];
+
+			if (e.shiftKey && document.activeElement === first) {
+				e.preventDefault();
+				last.focus();
+			} else if (!e.shiftKey && document.activeElement === last) {
+				e.preventDefault();
+				first.focus();
+			}
+		};
+
+		document.addEventListener("keydown", handleTabKey);
+		return () => {
+			document.removeEventListener("keydown", handleTabKey);
+			previouslyFocusedRef.current?.focus();
+		};
+	}, [isOpen]);
 
 	if (!isOpen) return null;
 
@@ -23,16 +92,22 @@ export default function PricingModal({ isOpen, onClose }: Props) {
 				display: "flex",
 				alignItems: "center",
 				justifyContent: "center",
-				padding: "20px",
+				padding: isDesktop ? "20px" : "16px",
 				background: "rgba(0,0,0,0.8)",
 				backdropFilter: "blur(8px)",
 			}}
 		>
-			{/* Backdrop */}
-			<div className="absolute inset-0" onClick={onClose} />
-
-			{/* Dialog */}
 			<div
+				className="absolute inset-0"
+				onClick={onClose}
+				aria-hidden="true"
+			/>
+
+			<div
+				ref={dialogRef}
+				role="dialog"
+				aria-modal="true"
+				aria-labelledby="pricing-modal-title"
 				className="animate-scale-in relative"
 				style={{
 					width: "100%",
@@ -48,7 +123,6 @@ export default function PricingModal({ isOpen, onClose }: Props) {
 						"0 32px 80px rgba(0,0,0,0.7), 0 0 60px rgba(59,130,246,0.1)",
 				}}
 			>
-				{/* Gradient Header */}
 				<div
 					style={{
 						background:
@@ -72,6 +146,7 @@ export default function PricingModal({ isOpen, onClose }: Props) {
 							</div>
 							<div>
 								<h2
+									id="pricing-modal-title"
 									style={{
 										fontSize: 20,
 										fontWeight: 700,
@@ -87,6 +162,8 @@ export default function PricingModal({ isOpen, onClose }: Props) {
 							</div>
 						</div>
 						<button
+							type="button"
+							ref={closeButtonRef}
 							onClick={onClose}
 							className="active-scale"
 							style={{
@@ -101,13 +178,13 @@ export default function PricingModal({ isOpen, onClose }: Props) {
 								justifyContent: "center",
 								transition: "all 0.2s",
 							}}
+							aria-label="Закрыть"
 						>
 							<X size={18} color="#94A3B8" />
 						</button>
 					</div>
 				</div>
 
-				{/* Content */}
 				<div style={{ overflowY: "auto", flex: 1, padding: "0 8px 8px" }}>
 					<Suspense
 						fallback={
