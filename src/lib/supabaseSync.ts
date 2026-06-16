@@ -1,4 +1,4 @@
-import { supabase } from './supabase';
+import { isSupabaseConfigured, supabase } from './supabase';
 import { useStore } from '../store';
 
 const ROW_ID = 'default';
@@ -18,6 +18,8 @@ type SyncData = {
 };
 
 export async function loadFromSupabase(): Promise<SyncData | null> {
+  if (!isSupabaseConfigured || !supabase) return null;
+
   const { data, error } = await supabase
     .from('user_data')
     .select('data')
@@ -29,6 +31,8 @@ export async function loadFromSupabase(): Promise<SyncData | null> {
 }
 
 export async function saveToSupabase(snapshot: SyncData): Promise<void> {
+  if (!isSupabaseConfigured || !supabase) return;
+
   const { error } = await supabase.from('user_data').upsert({
     id: ROW_ID,
     data: snapshot,
@@ -40,6 +44,8 @@ export async function saveToSupabase(snapshot: SyncData): Promise<void> {
 let saveTimer: ReturnType<typeof setTimeout> | null = null;
 
 export function scheduleSave() {
+  if (!isSupabaseConfigured) return;
+
   if (saveTimer) clearTimeout(saveTimer);
   saveTimer = setTimeout(() => {
     const s = useStore.getState();

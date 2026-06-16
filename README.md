@@ -2,36 +2,43 @@
 
 Фронтенд приложения FinCalendar — личный трекер бюджета с React + Vite.
 
-## Быстрый старт
+## Деплой на Timeweb Cloud
 
-```bash
-# Установка зависимостей
-npm install
+### Настройки при создании проекта:
 
-# Копируйте .env.example в .env и настройте VITE_API_URL
-cp .env.example .env
+| Параметр | Значение |
+|----------|----------|
+| Репозиторий | `levkinabas-star/FinCalendarWeb` |
+| Ветка | `frontend` |
+| Runtime | Node.js 20 |
+| Build | `npm ci && npm run build` |
+| Start | `npx serve -s dist -l 3000` |
 
-# Запуск dev сервера
-npm run dev
+### Обязательная переменная окружения:
+
+```
+VITE_API_URL=https://api.ваш-домен.ru
 ```
 
-## Переменные окружения
+### Опциональные переменные (Supabase):
 
-| Переменная | Описание | Обязательно |
-|------------|----------|------------|
-| `VITE_API_URL` | URL бэкенда для платежей | ✅ |
-| `VITE_SUPABASE_URL` | URL Supabase | ✅ |
-| `VITE_SUPABASE_ANON_KEY` | Anon key Supabase | ✅ |
+```
+VITE_SUPABASE_URL=
+VITE_SUPABASE_ANON_KEY=
+```
+
+Если оставить пустыми — данные будут храниться локально в браузере.
+
+## Локальный запуск
+
+```bash
+npm install
+cp .env.example .env  # Укажите VITE_API_URL
+npm run dev
+```
 
 ## Сборка
 
 ```bash
-# Продакшен сборка
 npm run build
-
-# Результат в папке dist/
 ```
-
-## Деплой
-
-См. [DEPLOY.md](./DEPLOY.md) для подробной инструкции по деплою.
