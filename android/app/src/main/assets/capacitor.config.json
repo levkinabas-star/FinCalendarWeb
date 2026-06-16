@@ -1,0 +1,13 @@
+{
+	"appId": "com.budgettracker.app",
+	"appName": "FinCalendar",
+	"webDir": "dist",
+	"android": {},
+	"plugins": {
+		"LocalNotifications": {
+			"smallIcon": "ic_stat_icon_config_sample",
+			"iconColor": "#488AFF",
+			"sound": "beep.wav"
+		}
+	}
+}

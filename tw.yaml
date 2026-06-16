@@ -5,7 +5,7 @@ services:
   - name: payment-api
     env: nodejs
     version: "20"
-    build_command: npm ci --omit=dev
+    build_command: npm install --omit=dev
     start_command: npm start
     port: 4000
     
