@@ -9,6 +9,11 @@
     "preview": "vite preview --host 0.0.0.0"
   },
   "dependencies": {
+    "@capacitor/android": "^8.3.0",
+    "@capacitor/browser": "^8.0.3",
+    "@capacitor/cli": "^8.3.0",
+    "@capacitor/core": "^8.3.0",
+    "@capacitor/local-notifications": "^8.0.2",
     "@supabase/supabase-js": "^2.104.0",
     "date-fns": "^2.30.0",
     "lucide-react": "^0.298.0",
@@ -29,7 +34,7 @@
     "autoprefixer": "^10.4.16",
     "postcss": "^8.4.32",
     "tailwindcss": "^3.3.6",
-    "typescript": "^5.3.2",
+    "typescript": "5.3.3",
     "vite": "^5.0.6"
   }
 }
